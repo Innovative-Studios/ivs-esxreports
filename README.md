@@ -5,8 +5,8 @@
 * MySQL Databse
 
 ## Commands & Usage
-/report <Reason> » creates report with reason (anyone can run this)<br>
-/closereport <Report ID> <Reason> » the admin can close the report (Sends reason to whomever opened report)<br> 
+/report [Reason] » creates report with reason (anyone can run this)<br>
+/closereport [Report ID] [Reason] » the admin can close the report (Sends reason to whomever opened report)<br> 
 /openreports » Displays all open reports 
   
 ## Installation 
