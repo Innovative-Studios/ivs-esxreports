@@ -5,9 +5,9 @@
 * MySQL Databse
 
 ## Commands & Usage
-/report [Reason] » creates report with reason (anyone can run this)<br>
+/report [Reason]                  » creates report with reason (anyone can run this)<br>
 /closereport [Report ID] [Reason] » the admin can close the report (Sends reason to whomever opened report)<br> 
-/openreports » Displays all open reports 
+/openreports                      » Displays all open reports 
   
 ## Installation 
 1) Run the labrp_reports.sql SQL file in your database
