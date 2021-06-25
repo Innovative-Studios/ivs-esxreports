@@ -7,9 +7,7 @@ RegisterCommand("report", function(source, args, rawCommand)
     --local args = table.concat(args, " ") 
    
     if (#args > 0) then
-        TriggerClientEvent('mythic_notify:client:SendAlert', source, { type = 'inform', text = 'Your report has been submitted', })
-        if havePermission(xPlayer, {'juniormoderator', 'communityhelper'}) then
-            TriggerClientEvent('mythic_notify:client:SendAlert', source, { type = 'inform', text = 'A new report has been submitted', })
+        TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] Your report has been submitted')
 
             MySQL.Async.fetchScalar('SELECT COUNT(1) FROM labrp_reports', {}, function(result)
             local maxnumber = tonumber(result)+1
@@ -27,31 +25,35 @@ RegisterCommand("report", function(source, args, rawCommand)
                 ['@closereason'] = ""
                 })
             end)
+            if xPlayer.getGroup() == "admin" then
+                TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] ^1^*A NEW REPORT HAS BEEN SUBMITTED. ')
         end
     else
-        TriggerClientEvent('mythic_notify:client:SendAlert', source, { type = 'error', text = 'Please enter a reason for the report', })
+        TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] Ensure you follow the format for a report » /report <Reason>')
     end
 end)
 
 RegisterCommand("openreports", function(source, args)
     if source ~= 0 then
         local xPlayer = ESX.GetPlayerFromId(source)
-        if havePermission(xPlayer, {'juniormoderator', 'communityhelper'}) then
+        if xPlayer.getGroup() == "admin" then
             MySQL.Async.fetchAll("SELECT reportnumber,identifier,reason FROM labrp_reports WHERE state = @state ORDER BY reportnumber",{['@state'] = "open"},function(result)
-                if(#result > 1) then
+                if(#result > 0) then
                     for x=1,#result do
                         local id = result[x].identifier
                         MySQL.Async.fetchAll("SELECT firstname,lastname FROM users WHERE identifier = @id",{['@id'] = id},function(result2)
-                            TriggerClientEvent('chat:addMessage', xPlayer.source, {
-                                template = '<div style="padding: 0.5vw; margin: 0.5vw; background-color: rgba(55, 69, 95, 0.5); border-radius: 3px;">{0} <br> {1} </div>',
-                                args = { "^*Report ID: (^4" .. result[x].reportnumber ..   "^0) | Report By:^4 " .. result2[1].firstname .. " " .. result2[1].lastname, "^0^*Reason: ^4" .. result[x].reason }
-                            });
+                            
+                            TriggerClientEvent("chat:addMessage", xPlayer.source, "^*Report ID: (^1" .. result[x].reportnumber ..   "^0) | Report By:^1 " .. result2[1].firstname .. " " .. result2[1].lastname .. "^0 | ^0^*Reason: ^1" .. result[x].reason)
+
+
                         end)
                     end
                 else
-                    TriggerClientEvent('mythic_notify:client:SendAlert', source, { type = 'error', text = 'There are no open reports' })
+                    TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] There are no open reports')
                 end
             end)
+        else 
+            TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] You do not have permission to execute that command')
         end
     end
 end)
@@ -59,7 +61,7 @@ end)
 RegisterCommand("closereport", function(source, args, rawCommand)
     if source ~= 0 then
         local xPlayer = ESX.GetPlayerFromId(source)
-        if havePermission(xPlayer, {'juniormoderator', 'communityhelper'}) then
+        if xPlayer.getGroup() == "admin" then
             local reportnumber = args[1]
             local closereason = ""
             for x=2,#args do
@@ -74,14 +76,16 @@ RegisterCommand("closereport", function(source, args, rawCommand)
                             ['@state'] = "closed",
                             ['@closereason'] = closereason
                         })
-                        TriggerClientEvent('mythic_notify:client:SendAlert', source, { type = 'inform', text = 'You have closed report ' .. reportnumber })
+                        TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] You have closed the report ^1ID ' .. reportnumber .. ' ^0for the reason: ^1' .. closereason)
                     else
-                        TriggerClientEvent('mythic_notify:client:SendAlert', source, { type = 'error', text = 'Please enter a close reason' })
+                        TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] Please enter a reason to close the report' )
                     end
                 else
-                    TriggerClientEvent('mythic_notify:client:SendAlert', source, { type = 'error', text = 'This report is already closed' })
+                    TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] This report is already closed' )
                 end
             end)
+        else
+            TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] You do not have permission to execute that command')
         end
     end
 end)
