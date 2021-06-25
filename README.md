@@ -22,3 +22,6 @@ https://www.youtube.com/watch?v=yuupq5Liek8
 ## Support
 For support on this resource create a new issue! 
 https://github.com/aidanohartt/labrp_reports/issues/new
+
+## Credits
+Created by: aidanohart & GVonny
