@@ -18,3 +18,7 @@ https://www.youtube.com/watch?v=yuupq5Liek8
 1) Run the labrp_reports.sql SQL file in your database
 2) Extract the labrp_reports folder into your resources folder on your server files
 3) Simple done!
+
+## Support
+For support on this resource create a new issue! 
+https://github.com/aidanohartt/labrp_reports/issues/new
