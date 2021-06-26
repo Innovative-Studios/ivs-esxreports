@@ -3,6 +3,7 @@ from Laborious Roleplay to you <3
 
 ## Preview:
 https://www.youtube.com/watch?v=yuupq5Liek8
+https://forum.cfx.re/t/free-esx-simple-mysql-reports-system/3555465
 
 ## Requirements
 * You will need ESX V1_Final (Should work on other ESX versions but never tested)
