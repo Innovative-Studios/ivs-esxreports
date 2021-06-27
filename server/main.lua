@@ -7,7 +7,7 @@ RegisterCommand("report", function(source, args, rawCommand)
     --local args = table.concat(args, " ") 
    
     if (#args > 0) then
-        TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] Your report has been submitted')
+        TriggerClientEvent("chat:addMessage", xPlayer.source, _U('report_submitted'))
 
             MySQL.Async.fetchScalar('SELECT COUNT(1) FROM labrp_reports', {}, function(result)
             local maxnumber = tonumber(result)+1
@@ -26,10 +26,10 @@ RegisterCommand("report", function(source, args, rawCommand)
                 })
             end)
             if xPlayer.getGroup() == "admin" then
-                TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] ^1^*A NEW REPORT HAS BEEN SUBMITTED. ')
+                TriggerClientEvent("chat:addMessage", xPlayer.source,  _U('admin_alert'))
         end
     else
-        TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] Ensure you follow the format for a report » /report <Reason>')
+        TriggerClientEvent("chat:addMessage", xPlayer.source, _U('wrong_format'))
     end
 end)
 
@@ -49,11 +49,11 @@ RegisterCommand("openreports", function(source, args)
                         end)
                     end
                 else
-                    TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] There are no open reports')
+                    TriggerClientEvent("chat:addMessage", xPlayer.source, _U('no_open_reports'))
                 end
             end)
         else 
-            TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] You do not have permission to execute that command')
+            TriggerClientEvent("chat:addMessage", xPlayer.source, _U('no_permissions'))
         end
     end
 end)
@@ -76,16 +76,16 @@ RegisterCommand("closereport", function(source, args, rawCommand)
                             ['@state'] = "closed",
                             ['@closereason'] = closereason
                         })
-                        TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] You have closed the report ^1ID ' .. reportnumber .. ' ^0for the reason: ^1' .. closereason)
+                        TriggerClientEvent("chat:addMessage", xPlayer.source, _U('report_closed', reportnumber, closereason))
                     else
-                        TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] Please enter a reason to close the report' )
+                        TriggerClientEvent("chat:addMessage", xPlayer.source, _U('enter_a_reason'))
                     end
                 else
-                    TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] This report is already closed' )
+                    TriggerClientEvent("chat:addMessage", xPlayer.source, _U('already_closed'))
                 end
             end)
         else
-            TriggerClientEvent("chat:addMessage", xPlayer.source, '[^1Report^0] You do not have permission to execute that command')
+            TriggerClientEvent("chat:addMessage", xPlayer.source, _U('no_permissions'))
         end
     end
 end)
