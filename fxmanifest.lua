@@ -6,7 +6,7 @@ version '1.1.0'
 
 server_script {
     '@mysql-async/lib/MySQL.lua',
-    'server/main.lua',
+    'server/sv_*.lua',
 }
 
 shared_scripts {
@@ -15,5 +15,4 @@ shared_scripts {
     'config.lua',
 }
 
-    client_script 'client/client.lua'
-
+client_script 'client/cl_*.lua'
